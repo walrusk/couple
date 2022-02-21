@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="App prose mx-auto">
       <header className="text-center p-6">
-        <h2 className="m-0">Couple</h2>
+        <h1 className="m-0">Couple</h1>
       </header>
       <div>
         <Game />

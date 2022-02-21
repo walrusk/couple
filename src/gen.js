@@ -2,7 +2,12 @@ import seedrandom from 'seedrandom';
 import {rand,shuffle} from './util';
 
 const emoji_tray = ['🗿','5️⃣','❎','💝','↕️','😨','♿️','🕳','📱','🐨','🈯️','🗳','🎥','🚭','🔧','🌒','💭','🚊','👀','😢'];
-const rng = seedrandom('test');
+const today = new Date().toISOString().slice(0, 10);
+const usingdaily = window.localStorage.getItem('usedaily') === 'true';
+if (usingdaily) {
+  console.log('today seed: ' + today);
+}
+const rng = usingdaily ? seedrandom(today) : Math.random;
 
 export function gen_board(w, h) {
   const half_board_size = w * h / 2;
