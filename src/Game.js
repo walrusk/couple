@@ -44,7 +44,7 @@ function Game() {
                   revealed={wasJustGuessed || isActiveGuess || wasJustActiveGuess || hasBeenPaired}
                   paired={hasBeenPaired}
                   emoji={board[pos]}
-                  className="w-12 h-10 flex justify-center items-center mb-2"
+                  className="w-12 h-10 flex justify-center items-center mb-2 text-2xl"
                 />
               );
             })}

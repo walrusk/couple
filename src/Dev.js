@@ -9,7 +9,7 @@ function Dev({ clear }) {
     window.location.reload();
   };
   return (
-    <div className="mt-20">
+    <div className="mt-96">
       dev:<br />
       <button className="btn btn-ghost btn-xs opacity-50" onClick={clear}>clear</button>
       <br />
