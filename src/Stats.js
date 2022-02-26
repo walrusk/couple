@@ -22,6 +22,7 @@ function Stats({ guesses, board, className }) {
         </div>
       )}
       <div className="tracking-wider text-xl w-52 mx-auto text-left">
+        <small className="opacity-50">Reveal all pairs to win!</small>
         <div className="text-sm mb-2 opacity-50 uppercase">
           Guesses:<span className="ml-1 countdown">
           <span style={{

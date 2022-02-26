@@ -1,13 +1,18 @@
 import Game from './Game';
+import GameMode from './GameMode';
 
 function App() {
   return (
-    <div className="App prose mx-auto">
-      <header className="text-center p-6 mt-6">
-        <h1 className="m-0">Couple</h1>
-        <small className="opacity-50">Reveal all pairs to win!</small>
+    <div className="App">
+      <header className="text-center p-4 bg-base-300">
+        <div className="flex items-center justify-center space-x-6">
+          <div className="prose">
+            <h1 className="m-0">Couple</h1>
+          </div>
+          <GameMode />
+        </div>
       </header>
-      <div>
+      <div className="prose mx-auto">
         <Game />
       </div>
     </div>

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import Tile from './Tile';
 import {gen_board} from './gen';
 import {range} from './util';
-import {useComplexLocalStorage} from './hooks';
+import {useComplexLocalStorage, useLocalStorageToggle} from './hooks';
 import Stats from './Stats';
-import Dev from './Dev';
+import Practice from './Practice';
 
 const w = 4;
 const h = 4;
@@ -27,6 +27,9 @@ function Game() {
   };
   return (
     <div className="Game container mx-auto p-6 text-center">
+      <div className="flex items-center justify-center mb-4">
+        <Practice />
+      </div>
       <div className="">
         {range(0,h-1).map((y) => (
           <div className="Row flex space-x-2 justify-center" key={y}>
@@ -52,7 +55,6 @@ function Game() {
         ))}
       </div>
       <Stats guesses={guesses} board={board} className="mt-4" />
-      <Dev clear={clear} />
     </div>
   );
 }
@@ -63,13 +65,6 @@ function isPaired(board, guesses, pos) {
       return true;
     }
   }
-}
-
-function useGuessList() {
-  const [guesses,setGuessList] = useComplexLocalStorage('guesses', []);
-  const guess = (pos) => { setGuessList([ ...guesses, pos ]) };
-  const clear = () => setGuessList([]);
-  return [guesses,guess,clear];
 }
 
 export default Game;
