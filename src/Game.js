@@ -5,6 +5,7 @@ import Guesses from './Guesses';
 import PracticeSeed from './PracticeSeed';
 import { W, H } from './game-constants';
 import GameOver from './GameOver';
+import Countdown from './Countdown';
 
 let guessTimeout;
 
@@ -32,6 +33,7 @@ function Game({ game }) {
           </div>
         )}
       </div>
+      <GameOver game={game} className="my-4" />
       <div className="">
         {range(0,H-1).map((y) => (
           <div className="Row flex space-x-2 justify-center" key={y}>
@@ -56,7 +58,7 @@ function Game({ game }) {
           </div>
         ))}
       </div>
-      <GameOver game={game} className="my-4" />
+      <Countdown game={game} />
       <Guesses game={game} />
     </div>
   );

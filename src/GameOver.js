@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Share from './Share';
 import SlideToggle from './SlideToggle';
-import {midnight_secs} from './util';
 
 function GameOver({ game, className }) {
   const { practice, hasWon, hasLost, clearGame, guess_count } = game;
@@ -25,33 +24,6 @@ function GameOver({ game, className }) {
           </div>
         </div>
       </SlideToggle>
-      <SlideToggle isVisible={hasWon || hasLost}>
-        <div className="py-2">
-          <TimeRemaining />
-        </div>
-      </SlideToggle>
-    </div>
-  );
-}
-
-function TimeRemaining() {
-  const [t,setT] = useState(0);
-  const h = Math.floor(t / 3600);
-  const m = Math.floor(t / 60) % 60;
-  const s = t % 60;
-  useEffect(() => {
-    setT(midnight_secs());
-    const i = window.setInterval(() => {
-      setT((curr_t) => curr_t-1);
-    }, 1000);
-    return () => window.clearInterval(i);
-  }, []);
-  const countdown = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  const percent = Math.round((t / 86400) * 100);
-  return (
-    <div className="radial-progress bg-base-300 mt-3" style={{'--value':percent, '--size':'6rem', '--thickness':'4px'}}>
-      <div className="text-xs opacity-40">next daily in</div>
-      {countdown}
     </div>
   );
 }
