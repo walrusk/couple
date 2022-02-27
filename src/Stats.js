@@ -4,7 +4,7 @@ import {useComplexLocalStorage} from './hooks';
 function Stats({ game, setShowStats }) {
   const { best_score, avg_score, best_streak, curr_streak } = useScore(game);
   return (
-    <div className="scale-in-ver-top pt-4">
+    <div className="pt-4">
       <div className="text-right h-0 relative top-10 -right-6">
         <button className="btn btn-ghost btn-circle btn-sm opacity-50" onClick={() => setShowStats(false)}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,25 +56,27 @@ function Stats({ game, setShowStats }) {
 }
 
 function useScore(game) {
-  const { board, practice, practiceSeed, guesses, guess_count, hasWon, gameNumber } = game;
-  const [hasSavedWin,setHasSavedWin] = useState(false);
-  const [stats,setStats] = useComplexLocalStorage(`stats-${practice ? 'practice' : 'daily'}`, {});
+  const { board, practice, practiceSeed, guesses, guess_count, hasWon, hasLost, gameNumber } = game;
+  const [hasSavedGame,setHasSavedGame] = useState(false);
+  const [stats,setStats] = useComplexLocalStorage(`stats-${practice ? 'practice' : 'daily'}`, []);
   useEffect(() => {
-    if (hasWon && !hasSavedWin) {
-      setStats({
-        ...stats,
-        [practice ? practiceSeed : gameNumber]: { g: guess_count, t: 0 },
-      });
-      setHasSavedWin(true);
+    if ((hasWon || hasLost) && !hasSavedGame) {
+      const gameKey = practice ? practiceSeed : gameNumber
+      setStats([
+        ...stats.filter((pastGame) => pastGame.k !== gameKey),
+        { k: gameKey, gc: guess_count, t: 0, w: hasWon },
+      ]);
+      setHasSavedGame(true);
     }
-  }, [hasWon,board,guesses,stats,setStats,hasSavedWin,gameNumber,guess_count,practice,practiceSeed]);
+  }, [hasWon,board,guesses,stats,setStats,hasSavedGame,gameNumber,guess_count,practice,practiceSeed]);
   useEffect(() => {
     if (!hasWon) {
-      setHasSavedWin(false);
+      setHasSavedGame(false);
     }
   }, [hasWon]);
   return useMemo(() => {
     // calc score from stats
+    console.log('stats', stats);
     return {
       // ...stats,
       best_score: 12,

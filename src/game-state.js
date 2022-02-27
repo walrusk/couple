@@ -1,21 +1,21 @@
-import {useMemo,useEffect} from 'react';
+import {useMemo,useEffect,useState} from 'react';
 import {useLocalStorageToggle, useLocalStorage, useComplexLocalStorage} from './hooks';
 import seedrandom from 'seedrandom';
 import {rand, shuffle} from './util';
-import { EMOJIS, W, H } from './game-constants';
+import { EMOJIS, W, H, MAX_GUESSES } from './game-constants';
 
 export function useGameState() {
   const [practice,togglePractice,practiceOn,practiceOff] = useLocalStorageToggle('practice');
-  const today = local_today();
+  const today = useToday();
   const [practiceSeed,setPracticeSeed] = useLocalStorage('practice-seed', 'seed');
   const rng = useMemo(() => practice ? seedrandom(practiceSeed) : seedrandom(today), [practice,practiceSeed,today]);
   const { board, picks } = useMemo(() => gen_board(W, H, EMOJIS, rng), [rng]);
   const [guesses,setGuessList] = useComplexLocalStorage(`guesses-${practice ? 'practice' : 'daily'}`, []);
-  // const [dailyGuessesFor,setDailyGuessesFor] = useLocalStorage('daily-guesses-for', local_today());
   const hasWon = useMemo(() => check_win(board, guesses), [board,guesses]);
   const clearGame = () => { if (practice) setGuessList([]) };
   const dailyGuessesFor = window.localStorage.getItem('daily-guesses-for');
   const guess_count = count_guesses(board, guesses);
+  const hasLost = !hasWon && guess_count >= MAX_GUESSES;
   useEffect(() => {
     if (dailyGuessesFor !== today && !practice) {
       setGuessList([]);
@@ -30,15 +30,30 @@ export function useGameState() {
     gameNumber: game_days(today),
     practiceSeed,
     setPracticeSeed: (seed) => { setPracticeSeed(seed); clearGame(); },
-    randomPracticeSeed: (seed) => { setPracticeSeed(rand(1,999, Math.random).toString().padStart(3, '0')); clearGame(); },
+    randomPracticeSeed: () => { setPracticeSeed(rand(1,999, Math.random).toString().padStart(3, '0')); clearGame(); },
     hasWon,
-    makeGuess: (pos) => { setGuessList([ ...guesses, pos ]); window.localStorage.setItem('daily-guesses-for', local_today()) },
+    hasLost,
+    makeGuess: (pos) => {
+      if (!hasLost) {
+        setGuessList([...guesses, pos]);
+        window.localStorage.setItem('daily-guesses-for', local_today());
+      }
+    },
     clearGame,
     togglePractice,
     practiceOn,
     practiceOff,
     isPaired: (pos) => is_paired(board, guesses, pos),
   };
+}
+
+function useToday() {
+  const [today,setToday] = useState(local_today());
+  useEffect(() => {
+    const i = setInterval(() => setToday(local_today()), 60000);
+    return () => window.clearInterval(i);
+  }, []);
+  return today;
 }
 
 function gen_board(w, h, emojis, rng) {

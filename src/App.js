@@ -3,6 +3,7 @@ import Game from './Game';
 import GameMode from './GameMode';
 import Stats from './Stats';
 import {useGameState} from './game-state';
+import SlideToggle from './SlideToggle';
 
 function App() {
   const game = useGameState();
@@ -12,7 +13,7 @@ function App() {
       <header className="text-center p-4 bg-base-300">
         <div className="flex items-center justify-center space-x-6">
           <div className="prose">
-            <h1 className="m-0">Couple</h1>
+            <h1 className="m-0"><a href="/">Couple</a></h1>
           </div>
           <GameMode game={game} showStats={showStats} setShowStats={setShowStats} />
         </div>
@@ -22,9 +23,9 @@ function App() {
       </header>
       <div className="prose mx-auto">
         <div className="w-48 mx-auto">
-          {showStats && (
+          <SlideToggle isVisible={showStats}>
             <Stats game={game} setShowStats={setShowStats} />
-          )}
+          </SlideToggle>
         </div>
         <Game game={game} />
       </div>

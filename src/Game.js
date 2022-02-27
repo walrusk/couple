@@ -4,18 +4,21 @@ import { range } from './util';
 import Guesses from './Guesses';
 import PracticeSeed from './PracticeSeed';
 import { W, H } from './game-constants';
+import GameOver from './GameOver';
 
 let guessTimeout;
 
 function Game({ game }) {
-  const { board, guesses, gameNumber, makeGuess, practice, isPaired } = game;
+  const { board, guesses, hasWon, hasLost, gameNumber, makeGuess, practice, isPaired } = game;
   const [justGuessed,setJustGuessed] = useState();
   const guess = (pos) => {
-    guessTimeout && window.clearTimeout(guessTimeout);
-    if (guesses[guesses.length - 1] !== pos) {
-      makeGuess(pos);
-      setJustGuessed(pos);
-      guessTimeout = window.setTimeout(() => setJustGuessed(undefined), 1000);
+    if (!hasLost) {
+      guessTimeout && window.clearTimeout(guessTimeout);
+      if (guesses[guesses.length - 1] !== pos) {
+        makeGuess(pos);
+        setJustGuessed(pos);
+        guessTimeout = window.setTimeout(() => setJustGuessed(undefined), 1000);
+      }
     }
   };
   return (
@@ -46,14 +49,15 @@ function Game({ game }) {
                   revealed={wasJustGuessed || isActiveGuess || wasJustActiveGuess || hasBeenPaired}
                   paired={hasBeenPaired}
                   emoji={board[pos]}
-                  className="w-12 h-10 flex justify-center items-center mb-2 text-2xl"
+                  className={`w-12 h-10 flex justify-center items-center mb-2 text-2xl ${hasWon && 'jello-diagonal-1'} ${hasLost && 'puff-out-center'}`}
                 />
               );
             })}
           </div>
         ))}
       </div>
-      <Guesses game={game} className="mt-4" />
+      <GameOver game={game} className="my-4" />
+      <Guesses game={game} />
     </div>
   );
 }

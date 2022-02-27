@@ -16,3 +16,9 @@ export function range(low, high) {
 export function rand(min, max, randFn) {
   return Math.floor(randFn() * (max - min + 1) + min)
 }
+
+export function midnight_secs() {
+  const now = new Date();
+  const midnight = new Date(now.getFullYear(), now.getMonth(),now.getDate() + 1,0, 0, 0);
+  return Math.floor((midnight.getTime() - (new Date()).getTime()) / 1000);
+}
