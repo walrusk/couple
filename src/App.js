@@ -18,7 +18,7 @@ function App() {
           <GameMode game={game} showStats={showStats} setShowStats={setShowStats} />
         </div>
         <div className="text-center mt-3">
-          <small className="opacity-50">Reveal all pairs in 20 guesses to win!</small>
+          <small className="opacity-50">Match all pairs to win!</small>
         </div>
       </header>
       <div className="prose mx-auto">
@@ -27,7 +27,7 @@ function App() {
             <Stats game={game} setShowStats={setShowStats} />
           </SlideToggle>
         </div>
-        <Game game={game} />
+        <Game game={game} showStats={showStats} setShowStats={setShowStats} />
       </div>
     </div>
   );

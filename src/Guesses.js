@@ -4,7 +4,7 @@ import SlideToggle from './SlideToggle';
 
 function Guesses({ game, className }) {
   const { guesses, guess_count, board } = game;
-  const lastRow = guess_count > MAX_GUESSES - 5;
+  const lastRow = guess_count > MAX_GUESSES - 4;
   const [showGuesses,setShowGuesses] = useState(false);
   return (
     <div className={`text-md ${className}`}>
@@ -12,17 +12,17 @@ function Guesses({ game, className }) {
         <div className="text-center my-2">
           <button className={`btn btn-ghost btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
             <div className={`${lastRow && 'text-red-500'}`}>
-              <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">guess</div>
+              <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">lives</div>
               <span className="text-2xl ml-1 countdown">
                 <span style={{
-                  '--value': guess_count
+                  '--value': MAX_GUESSES - guess_count
                 }} />
               </span>
             </div>
           </button>
         </div>
         <SlideToggle isVisible={showGuesses} className="py-4">
-          <div className="Guesses height-40 grid grid-rows-5 grid-flow-col gap-x-4 auto-cols-min">
+          <div className="Guesses height-40 grid grid-rows-4 grid-flow-col gap-x-4 auto-cols-min">
             {guesses.reduce((pairs, guess, i) => {
               if (i%2 === 0) {
                 const guess1 = board[guesses[i]];

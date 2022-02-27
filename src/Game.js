@@ -9,7 +9,7 @@ import Countdown from './Countdown';
 
 let guessTimeout;
 
-function Game({ game }) {
+function Game({ game, showStats, setShowStats }) {
   const { board, guesses, hasWon, hasLost, gameNumber, makeGuess, practice, isPaired } = game;
   const [justGuessed,setJustGuessed] = useState();
   const guess = (pos) => {
@@ -33,7 +33,7 @@ function Game({ game }) {
           </div>
         )}
       </div>
-      <GameOver game={game} className="my-4" />
+      <GameOver game={game} showStats={showStats} setShowStats={setShowStats} className="my-4" />
       <div className="">
         {range(0,H-1).map((y) => (
           <div className="Row flex space-x-2 justify-center" key={y}>
