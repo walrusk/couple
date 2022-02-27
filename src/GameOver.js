@@ -34,10 +34,10 @@ function GameOver({ game, className, showStats, setShowStats }) {
             </div>
             <div className={`opacity-80 text-sm relative py-2 ${showGuy ? '-mt-14' : '-mt-2'} flex justify-center items-center`}>
               <strong className="text-xl mr-1 font-bold">{lives}</strong>
-              <span className="text-sm">{lives === 1 ? 'life' : 'lives'} left!</span>
+              <span className="text-sm">with {lives === 1 ? 'life' : 'lives'} left!</span>
             </div>
           </div>
-          <div className="text-sm my-2 space-x-2">
+          <div className="text-sm my-2 flex space-x-2">
             <Share game={game} />
             <button className={`btn btn-sm ${showStats && 'btn-active'}`} onClick={() => setShowStats(!showStats)}>
               stats
