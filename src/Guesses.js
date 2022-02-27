@@ -17,6 +17,13 @@ function Guesses({ game, className }) {
             }} />
           </span>
         </div>
+        <SlideToggle isVisible={guess_count > 0} className="py-2">
+          <div className="flex justify-center">
+            <button className="btn btn-xs opacity-40 hover:opacity-100" onClick={() => setShowGuesses(!showGuesses)}>
+              {showGuesses ? 'Hide' : 'Show'} guesses
+            </button>
+          </div>
+        </SlideToggle>
         <SlideToggle isVisible={showGuesses} className="py-4">
           <div className="Guesses height-40 grid grid-rows-5 grid-flow-col gap-x-4 auto-cols-min">
             {guesses.reduce((pairs, guess, i) => {
@@ -38,11 +45,6 @@ function Guesses({ game, className }) {
             }, [])}
           </div>
         </SlideToggle>
-        <div className="flex justify-center my-4">
-          <button className="btn btn-xs opacity-40 hover:opacity-100" onClick={() => setShowGuesses(!showGuesses)}>
-            {showGuesses ? 'Hide' : 'Show'} guesses
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ function App() {
         </div>
       </header>
       <div className="prose mx-auto">
-        <div className="w-48 mx-auto">
+        <div className="w-60 mx-auto">
           <SlideToggle isVisible={showStats}>
             <Stats game={game} setShowStats={setShowStats} />
           </SlideToggle>

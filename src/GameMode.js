@@ -9,18 +9,13 @@ function GameMode({ game, showStats, setShowStats }) {
       setHasWonDaily();
     }
   }, [practice,hasWon,setHasWonDaily]);
-  function dailyButton() {
-    setShowStats(false);
-    practiceOff();
-  }
   function practiceButton() {
     randomPracticeSeed();
-    setShowStats(false);
     practiceOn();
   }
   return (
     <div className="btn-group relative top-0.5">
-      <button className={`btn btn-xs ${!practice && 'btn-active'}`} onClick={dailyButton}>Daily {wonDaily && '✅'}</button>
+      <button className={`btn btn-xs ${!practice && 'btn-active'}`} onClick={practiceOff}>Daily {wonDaily && '✅'}</button>
       <button className={`btn btn-xs ${practice && 'btn-active'}`} onClick={practiceButton}>Practice</button>
       <button className={`btn btn-xs ${showStats && 'btn-active'}`} onClick={() => setShowStats(!showStats)}>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
