@@ -9,21 +9,18 @@ function Guesses({ game, className }) {
   return (
     <div className={`text-md ${className}`}>
       <div className="tracking-wider text-xl w-52 mx-auto text-left">
-        <div className={`my-2 text-center ${lastRow && 'text-red-500'}`}>
-          <div className="text-xs tracking-normal opacity-50 ml-0.5">guess</div>
-          <span className="text-2xl ml-1 countdown">
-            <span style={{
-              '--value': guess_count
-            }} />
-          </span>
+        <div className="text-center my-2">
+          <button className={`btn btn-ghost btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
+            <div className={`${lastRow && 'text-red-500'}`}>
+              <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">guess</div>
+              <span className="text-2xl ml-1 countdown">
+                <span style={{
+                  '--value': guess_count
+                }} />
+              </span>
+            </div>
+          </button>
         </div>
-        <SlideToggle isVisible={guess_count > 0}>
-          <div className="flex justify-center py-2">
-            <button className="btn btn-xs opacity-40 hover:opacity-100" onClick={() => setShowGuesses(!showGuesses)}>
-              {showGuesses ? 'Hide' : 'Show'} guesses
-            </button>
-          </div>
-        </SlideToggle>
         <SlideToggle isVisible={showGuesses} className="py-4">
           <div className="Guesses height-40 grid grid-rows-5 grid-flow-col gap-x-4 auto-cols-min">
             {guesses.reduce((pairs, guess, i) => {

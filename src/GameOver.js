@@ -20,7 +20,7 @@ function GameOver({ game, className }) {
         <div className="text-center mb-6">
           <div className="win-message text-lg shake-horizontal uppercase font-bold">
             Game Over
-            {practice && <button className="btn btn-xs ml-6 relative -top-0.5" onClick={clearGame}>reset</button>}
+            <div>{practice && <button className="btn mt-2 btn-sm relative -top-0.5" onClick={clearGame}>reset practice</button>}</div>
           </div>
         </div>
       </SlideToggle>

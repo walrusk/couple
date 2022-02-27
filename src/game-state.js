@@ -33,6 +33,7 @@ export function useGameState() {
     randomPracticeSeed: () => { setPracticeSeed(rand(1,999, Math.random).toString().padStart(3, '0')); clearGame(); },
     hasWon,
     hasLost,
+    today,
     makeGuess: (pos) => {
       if (!hasLost) {
         setGuessList([...guesses, pos]);
@@ -116,7 +117,7 @@ function check_win(board, guesses) {
 }
 
 function game_days(today) {
-  const diff = new Date(today).getTime() - new Date('2022-02-25');
+  const diff = new Date(today).getTime() - new Date('2022-02-26');
   return Math.ceil(diff / (1000 * 3600 * 24));
 }
 

@@ -4,16 +4,15 @@ function Share({ game }) {
   if (!window.navigator.share) {
     return null;
   }
-  const { picks, guesses, gameNumber } = game;
-  const numGuessPairs = Math.floor(guesses.length / 2);
-  const shareString = `COUPLE #${gameNumber} ${picks}
-Won in ${numGuessPairs} guesses.`;
+  const { picks, guess_count, gameNumber } = game;
   const share = async () => {
     try {
       await window.navigator.share({
-        title: `COUPLE #${gameNumber}`,
-        text: shareString,
-        url: 'http://walrusk.com/couple',
+        title: `Couple #${gameNumber}`,
+        text: `Couple #${gameNumber} 
+${picks}
+Solved in ${guess_count} guesses.`,
+        url: 'https://couple.magnetnet.net/',
       })
     } catch(_) {}
   };
