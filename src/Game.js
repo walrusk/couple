@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Tile from './Tile';
 import { range } from './util';
 import Guesses from './Guesses';
-import Practice from './Practice';
+import PracticeSeed from './PracticeSeed';
 import { W, H } from './game-constants';
 
 let guessTimeout;
@@ -22,9 +22,9 @@ function Game({ game }) {
     <div className="Game container mx-auto p-6 text-center">
       <div className="flex items-center justify-center mb-4">
         {practice ? (
-          <Practice game={game} />
+          <PracticeSeed game={game} />
         ) : (
-          <div className="text-xs opacity-75">
+          <div className="text-sm opacity-75">
             game #{gameNumber}
           </div>
         )}

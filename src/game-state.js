@@ -1,6 +1,6 @@
+import {useMemo,useEffect} from 'react';
 import {useLocalStorageToggle, useLocalStorage, useComplexLocalStorage} from './hooks';
 import seedrandom from 'seedrandom';
-import {useMemo} from 'react';
 import {rand, shuffle} from './util';
 import { EMOJIS, W, H } from './game-constants';
 
@@ -11,19 +11,28 @@ export function useGameState() {
   const rng = useMemo(() => practice ? seedrandom(practiceSeed) : seedrandom(today), [practice,practiceSeed,today]);
   const { board, picks } = useMemo(() => gen_board(W, H, EMOJIS, rng), [rng]);
   const [guesses,setGuessList] = useComplexLocalStorage(`guesses-${practice ? 'practice' : 'daily'}`, []);
+  // const [dailyGuessesFor,setDailyGuessesFor] = useLocalStorage('daily-guesses-for', local_today());
   const hasWon = useMemo(() => check_win(board, guesses), [board,guesses]);
   const clearGame = () => { if (practice) setGuessList([]) };
+  const dailyGuessesFor = window.localStorage.getItem('daily-guesses-for');
+  const guess_count = count_guesses(board, guesses);
+  useEffect(() => {
+    if (dailyGuessesFor !== today && !practice) {
+      setGuessList([]);
+    }
+  }, [dailyGuessesFor,today,practice,setGuessList]);
   return {
     board,
     picks,
     guesses,
+    guess_count,
     practice,
     gameNumber: game_days(today),
     practiceSeed,
     setPracticeSeed: (seed) => { setPracticeSeed(seed); clearGame(); },
     randomPracticeSeed: (seed) => { setPracticeSeed(rand(1,999, Math.random).toString().padStart(3, '0')); clearGame(); },
     hasWon,
-    makeGuess: (pos) => { setGuessList([ ...guesses, pos ]) },
+    makeGuess: (pos) => { setGuessList([ ...guesses, pos ]); window.localStorage.setItem('daily-guesses-for', local_today()) },
     clearGame,
     togglePractice,
     practiceOn,
@@ -58,6 +67,20 @@ function is_paired(board, guesses, pos) {
       return true;
     }
   }
+}
+
+function count_guesses(board, guesses) {
+  return Math.floor(guesses.length / 2) - count_pairs(board, guesses);
+}
+
+function count_pairs(board, guesses) {
+  let pairs = 0;
+  for (let i=0; i<guesses.length-1; i+=2) {
+    if (board[guesses[i]] === board[guesses[i+1]]) {
+      pairs++;
+    }
+  }
+  return pairs;
 }
 
 function check_win(board, guesses) {

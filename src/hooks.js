@@ -32,11 +32,11 @@ export function useLocalStorageToggle(key, fallbackVal = false) {
   const On = useCallback(() => {
     setOn(true);
     setBool(key, true);
-  }, []);
+  }, [key]);
   const Off = useCallback(() => {
     setOn(false);
     setBool(key, false);
-  }, []);
+  }, [key]);
   return [on,toggle,On,Off];
 }
 

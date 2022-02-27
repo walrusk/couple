@@ -2,7 +2,7 @@ import React from 'react';
 import seedrandom from 'seedrandom';
 import {rand} from './util';
 
-function Practice({ game }) {
+function PracticeSeed({ game }) {
   const { picks, practiceSeed, setPracticeSeed } = game;
   const rng = seedrandom(practiceSeed);
   return (
@@ -27,4 +27,4 @@ function Practice({ game }) {
   );
 }
 
-export default Practice;
+export default PracticeSeed;

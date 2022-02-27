@@ -17,15 +17,16 @@ function App() {
           <GameMode game={game} showStats={showStats} setShowStats={setShowStats} />
         </div>
         <div className="text-center">
-          <small className="opacity-50">Reveal all pairs to win!</small>
+          <small className="opacity-50">Reveal all pairs in 20 guesses to win!</small>
         </div>
       </header>
       <div className="prose mx-auto">
-        {showStats ? (
-          <Stats game={game} setShowStats={setShowStats} />
-        ) : (
-          <Game game={game} />
-        )}
+        <div className="w-48 mx-auto">
+          {showStats && (
+            <Stats game={game} setShowStats={setShowStats} />
+          )}
+        </div>
+        <Game game={game} />
       </div>
     </div>
   );
