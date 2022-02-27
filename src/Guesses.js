@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {MAX_GUESSES} from './game-constants';
 import SlideToggle from './SlideToggle';
+import {range} from './util';
 
 function Guesses({ game, className }) {
   const { guesses, guess_count, board } = game;
@@ -30,8 +31,10 @@ function Guesses({ game, className }) {
                 const isPair = guess1 === guess2;
                 if (!isPair) {
                   pairs.push((
-                    <div key={i}
-                         className={`text-center flex w-10 justify-center h-5 mb-2 opacity-60 ${isPair ? 'ring-2 ring-offset-1 ring-offset-primary ring-primary ring-opacity-100 rounded-full' : ''}`}>
+                    <div
+                      key={i}
+                      className={`text-center flex w-10 justify-center h-5 mb-2 ${isPair ? 'ring-2 ring-offset-1 ring-offset-primary ring-primary ring-opacity-100 rounded-full' : ''}`}
+                    >
                       <div className="relative -top-0.5 -rotate-12 left-0.5">{guess1}</div>
                       <div className="relative -top-0.5 rotate-12 -left-0.5">{guess2}</div>
                     </div>
@@ -40,6 +43,14 @@ function Guesses({ game, className }) {
               }
               return pairs;
             }, [])}
+            {range(range.length, 16).map((i) => (
+              <div
+                key={i}
+                className="flex justify-center items-center w-10"
+              >
+                <div className="bg-base-200 w-7 h-7 mb-2 blur-sm rounded-full relative -top-0.5" />
+              </div>
+            ))}
           </div>
         </SlideToggle>
       </div>
