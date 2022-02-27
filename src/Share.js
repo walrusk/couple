@@ -12,7 +12,7 @@ function Share({ game }) {
         text: `Couple #${gameNumber} 
 ${picks}
 Solved in ${guess_count} guesses.`,
-        url: 'couple.magnetnet.net',
+        url: 'https://couple.magnetnet.net',
       })
     } catch(_) {}
   };
