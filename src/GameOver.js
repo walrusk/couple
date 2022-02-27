@@ -4,13 +4,13 @@ import SlideToggle from './SlideToggle';
 import {midnight_secs} from './util';
 
 function GameOver({ game, className }) {
-  const { practice, hasWon, hasLost, clearGame } = game;
+  const { practice, hasWon, hasLost, clearGame, guess_count } = game;
   return (
     <div className={className}>
       <SlideToggle isVisible={hasWon}>
         <div className="text-center mb-6">
-          <div className="win-message text-lg jello-horizontal uppercase font-bold">
-            Puzzle Solved! 🎉
+          <div className="win-message text-lg jello-horizontal uppercase">
+            Puzzle Solved in <strong>{guess_count}</strong>! 🎉
           </div>
           <div className="text-sm mt-4 space-x-2">
             <Share game={game} />
@@ -25,12 +25,11 @@ function GameOver({ game, className }) {
           </div>
         </div>
       </SlideToggle>
-      <div className="py-2">
-        <SlideToggle isVisible={hasWon || hasLost}>
+      <SlideToggle isVisible={hasWon || hasLost}>
+        <div className="py-2">
           <TimeRemaining />
-          <div className="text-xs opacity-40">until next puzzle available</div>
-        </SlideToggle>
-      </div>
+        </div>
+      </SlideToggle>
     </div>
   );
 }
@@ -47,7 +46,14 @@ function TimeRemaining() {
     }, 1000);
     return () => window.clearInterval(i);
   }, []);
-  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  const countdown = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  const percent = Math.round((t / 86400) * 100);
+  return (
+    <div className="radial-progress bg-base-300 mt-3" style={{'--value':percent, '--size':'6rem', '--thickness':'4px'}}>
+      <div className="text-xs opacity-40">next daily in</div>
+      {countdown}
+    </div>
+  );
 }
 
 export default GameOver;

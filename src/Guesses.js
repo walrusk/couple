@@ -17,8 +17,8 @@ function Guesses({ game, className }) {
             }} />
           </span>
         </div>
-        <SlideToggle isVisible={guess_count > 0} className="py-2">
-          <div className="flex justify-center">
+        <SlideToggle isVisible={guess_count > 0}>
+          <div className="flex justify-center py-2">
             <button className="btn btn-xs opacity-40 hover:opacity-100" onClick={() => setShowGuesses(!showGuesses)}>
               {showGuesses ? 'Hide' : 'Show'} guesses
             </button>

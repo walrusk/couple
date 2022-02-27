@@ -46,10 +46,10 @@ function calc_score(stats) {
     sum += game.gc;
   });
   return {
-    // ...stats,
     best_score,
     avg_score: Math.round(sum / stats.length),
     best_streak: curr_streak > best_streak ? curr_streak : best_streak,
     curr_streak,
+    total_games: stats.length,
   };
 }
