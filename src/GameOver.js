@@ -32,9 +32,10 @@ function GameOver({ game, className, showStats, setShowStats }) {
                 </div>
               </SlideToggle>
             </div>
-            <div className={`opacity-80 text-sm relative py-2 ${showGuy ? '-mt-14' : '-mt-2'} flex justify-center items-center`}>
-              <strong className="text-xl mr-1 font-bold">{lives}</strong>
-              <span className="text-sm">with {lives === 1 ? 'life' : 'lives'} left!</span>
+            <div className={`opacity-80 text-sm relative py-2 ${showGuy ? '-mt-14' : '-mt-2'} flex justify-center items-center space-x-1`}>
+              <span className="text-sm">with</span>
+              <strong className="text-xl font-bold">{lives}</strong>
+              <span className="text-sm">{lives === 1 ? 'life' : 'lives'} left!</span>
             </div>
           </div>
           <div className="text-sm my-2 flex justify-center space-x-4">
