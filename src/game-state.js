@@ -2,24 +2,42 @@ import {useLocalStorageToggle, useLocalStorage, useComplexLocalStorage} from './
 import seedrandom from 'seedrandom';
 import {useMemo} from 'react';
 import {rand, shuffle} from './util';
-
-const EMOJIS = ['🗿','5️⃣','❎','💝','↕️','😨','♿️','🕳','📱','🐨','🈯️','🗳','🎥','🚭','🔧','🌒','💭','🚊','👀','😢'];
+import { EMOJIS, W, H } from './game-constants';
 
 export function useGameState() {
-  const [practice,practiceToggle] = useLocalStorageToggle('practice');
-  const today = new Date().toISOString().slice(0, 10);
-  const practiceSeed = useLocalStorage('practice-seed');
+  const [practice,togglePractice,practiceOn,practiceOff] = useLocalStorageToggle('practice');
+  const today = local_today();
+  const [practiceSeed,setPracticeSeed] = useLocalStorage('practice-seed', 'seed');
   const rng = useMemo(() => practice ? seedrandom(practiceSeed) : seedrandom(today), [practice,practiceSeed,today]);
-
+  const { board, picks } = useMemo(() => gen_board(W, H, EMOJIS, rng), [rng]);
   const [guesses,setGuessList] = useComplexLocalStorage(`guesses-${practice ? 'practice' : 'daily'}`, []);
-  const guess = (pos) => { setGuessList([ ...guesses, pos ]) };
-  const clear = () => { if (practice) setGuessList([]); };
-
+  const hasWon = useMemo(() => check_win(board, guesses), [board,guesses]);
+  const clearGame = () => { if (practice) setGuessList([]) };
+  return {
+    board,
+    picks,
+    guesses,
+    practice,
+    gameNumber: game_days(today),
+    practiceSeed,
+    setPracticeSeed: (seed) => { setPracticeSeed(seed); clearGame(); },
+    randomPracticeSeed: (seed) => { setPracticeSeed(rand(1,999, Math.random).toString().padStart(3, '0')); clearGame(); },
+    hasWon,
+    makeGuess: (pos) => { setGuessList([ ...guesses, pos ]) },
+    clearGame,
+    togglePractice,
+    practiceOn,
+    practiceOff,
+    isPaired: (pos) => is_paired(board, guesses, pos),
+  };
 }
 
 function gen_board(w, h, emojis, rng) {
   const picks = rand_emojis(w * h / 2, emojis, rng);
-  return shuffle([...picks,...picks], rng);
+  return {
+    board: shuffle([...picks,...picks], rng),
+    picks,
+  };
 }
 
 function rand_emojis(num, from_emojis, rng) {
@@ -32,4 +50,43 @@ function rand_emojis(num, from_emojis, rng) {
     from.splice(pos, 1);
   }
   return emojis;
+}
+
+function is_paired(board, guesses, pos) {
+  for (let i=0; i<guesses.length-1; i+=2) {
+    if (board[guesses[i]] === board[guesses[i+1]] && board[guesses[i]] === board[pos]) {
+      return true;
+    }
+  }
+}
+
+function check_win(board, guesses) {
+  const remaining = [...board];
+  for (let i=0; i<guesses.length-1; i+=2) {
+    if (board[guesses[i]] === board[guesses[i+1]]) {
+      // todo: improve this logic for removing both matches
+      let boardIndex = remaining.findIndex((emoji) => emoji === board[guesses[i]]);
+      if (boardIndex !== undefined) remaining.splice(boardIndex, 1);
+      boardIndex = remaining.findIndex((emoji) => emoji === board[guesses[i]]);
+      if (boardIndex !== undefined) remaining.splice(boardIndex, 1);
+      if (remaining.length === 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function game_days(today) {
+  const diff = new Date(today).getTime() - new Date('2022-02-25');
+  return Math.ceil(diff / (1000 * 3600 * 24));
+}
+
+function padNum(n) {
+  return n.toString().padStart(2, '0');
+}
+
+function local_today() {
+  const d = new Date();
+  return `${d.getFullYear()}-${padNum(d.getMonth()+1)}-${padNum(d.getDate())}`;
 }

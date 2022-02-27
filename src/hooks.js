@@ -1,4 +1,4 @@
-import {useState,useCallback} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export function useComplexLocalStorage(key, fallbackVal = {}) {
   const [val,setVal] = useState(getItem(key, JSON.stringify(fallbackVal)));
@@ -6,6 +6,9 @@ export function useComplexLocalStorage(key, fallbackVal = {}) {
     setItem(key, JSON.stringify(newVal));
     setVal(JSON.stringify(newVal));
   }, [key]);
+  useEffect(() => {
+    setVal(getItem(key, JSON.stringify(fallbackVal)));
+  }, [key,fallbackVal]);
   return [JSON.parse(val),saveVal];
 }
 
@@ -26,7 +29,15 @@ export function useLocalStorageToggle(key, fallbackVal = false) {
       return !on;
     });
   }, [key]);
-  return [on,toggle];
+  const On = useCallback(() => {
+    setOn(true);
+    setBool(key, true);
+  }, []);
+  const Off = useCallback(() => {
+    setOn(false);
+    setBool(key, false);
+  }, []);
+  return [on,toggle,On,Off];
 }
 
 function setItem(key, val) {
