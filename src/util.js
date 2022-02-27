@@ -20,5 +20,5 @@ export function rand(min, max, randFn) {
 export function midnight_secs() {
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(),now.getDate() + 1,0, 0, 0);
-  return Math.floor((midnight.getTime() - (new Date()).getTime()) / 1000);
+  return Math.floor((midnight.getTime() - now.getTime()) / 1000);
 }
