@@ -59,8 +59,7 @@ export function useHeight({ on = true /* no value means on */ } = {}) {
       ro.observe(ref.current, {});
     }
     return () => ro.disconnect();
-  }, [on, ref.current]);
-
+  }, [on, ro]);
   return [height, ref];
 }
 
