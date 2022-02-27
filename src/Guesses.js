@@ -48,7 +48,7 @@ function Guesses({ game, className }) {
                 key={i}
                 className="flex justify-center items-center w-10"
               >
-                <div className="bg-base-200 w-7 h-7 mb-2 blur-sm rounded-full relative -top-0.5" />
+                <div className="bg-base-300 w-7 h-7 mb-2 opacity-80 rounded-full relative -top-1" />
               </div>
             ))}
           </div>
