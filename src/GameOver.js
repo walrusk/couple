@@ -37,7 +37,7 @@ function GameOver({ game, className, showStats, setShowStats }) {
               <span className="text-sm">with {lives === 1 ? 'life' : 'lives'} left!</span>
             </div>
           </div>
-          <div className="text-sm my-2 flex space-x-2">
+          <div className="text-sm my-2 flex justify-center space-x-4">
             <Share game={game} />
             <button className={`btn btn-sm ${showStats && 'btn-active'}`} onClick={() => setShowStats(!showStats)}>
               stats
