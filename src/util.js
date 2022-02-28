@@ -13,7 +13,7 @@ export function range(low, high) {
   try {
     return [...Array(high-low+1).keys()].map(k => k + low);
   } catch (err) {
-    console.log(err);
+    console.log(err, high-low+1);
     return [];
   }
 }
