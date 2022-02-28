@@ -29,7 +29,7 @@ function TimeRemaining({ onTimeout }) {
       });
     }, 1000);
     return () => window.clearInterval(i);
-  }, []);
+  }, [onTimeout]);
   const countdown = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   const percent = Math.round((t / 86400) * 100);
   return (
