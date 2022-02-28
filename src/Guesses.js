@@ -8,6 +8,25 @@ function Guesses({ game, className }) {
   const lastRow = guess_count > MAX_GUESSES - 4;
   const [showGuesses,setShowGuesses] = useState(false);
   const gameIsDone = hasWon || hasLost;
+  const pairs = guesses.reduce((pairs, guess, i) => {
+    if (i%2 === 0) {
+      const guess1 = board[guesses[i]];
+      const guess2 = board[guesses[i+1]];
+      const isPair = guess1 === guess2;
+      if (!isPair) {
+        pairs.push((
+          <div
+            key={i}
+            className={`text-center flex w-10 justify-center h-5 mb-2 ${isPair ? 'ring-2 ring-offset-1 ring-offset-primary ring-primary ring-opacity-100 rounded-full' : ''}`}
+          >
+            <div className="relative -top-0.5 -rotate-12 left-0.5">{guess1}</div>
+            <div className="relative -top-0.5 rotate-12 -left-0.5">{guess2}</div>
+          </div>
+        ));
+      }
+    }
+    return pairs;
+  }, [])
   return (
     <div className={`text-md ${className}`}>
       <div className="tracking-wider text-xl w-52 mx-auto text-left">
@@ -25,26 +44,8 @@ function Guesses({ game, className }) {
         </div>
         <SlideToggle isVisible={showGuesses} className="py-4">
           <div className="Guesses height-40 grid grid-rows-4 grid-flow-col gap-x-4 auto-cols-min">
-            {guesses.reduce((pairs, guess, i) => {
-              if (i%2 === 0) {
-                const guess1 = board[guesses[i]];
-                const guess2 = board[guesses[i+1]];
-                const isPair = guess1 === guess2;
-                if (!isPair) {
-                  pairs.push((
-                    <div
-                      key={i}
-                      className={`text-center flex w-10 justify-center h-5 mb-2 ${isPair ? 'ring-2 ring-offset-1 ring-offset-primary ring-primary ring-opacity-100 rounded-full' : ''}`}
-                    >
-                      <div className="relative -top-0.5 -rotate-12 left-0.5">{guess1}</div>
-                      <div className="relative -top-0.5 rotate-12 -left-0.5">{guess2}</div>
-                    </div>
-                  ));
-                }
-              }
-              return pairs;
-            }, [])}
-            {range(range.length, 16).map((i) => (
+            {pairs}
+            {range(pairs.length, 16).map((i) => (
               <div
                 key={i}
                 className="flex justify-center items-center w-10"
