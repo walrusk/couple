@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef, useLayoutEffect } from 'react';
+import { getItem, setItem, getBool, setBool } from './util';
 
 export function useComplexLocalStorage(key, fallbackVal = {}) {
   const [val,setVal] = useState(getItem(key, JSON.stringify(fallbackVal)));
@@ -61,23 +62,4 @@ export function useHeight({ on = true /* no value means on */ } = {}) {
     return () => ro.disconnect();
   }, [on, ro]);
   return [height, ref];
-}
-
-function setItem(key, val) {
-  window.localStorage.setItem(key, val);
-}
-
-function getItem(key, fallbackValue) {
-  const item = window.localStorage.getItem(key);
-  return item ?? fallbackValue;
-}
-
-function setBool(key, val) {
-  window.localStorage.setItem(key, val ? 'true' : 'false');
-}
-
-function getBool(key, fallbackValue) {
-  const item = window.localStorage.getItem(key);
-  if (item === null) return fallbackValue;
-  return item === 'true';
 }

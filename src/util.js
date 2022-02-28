@@ -10,7 +10,8 @@ export function shuffle(arr, randFn) {
 }
 
 export function range(low, high) {
-  return [...Array(high-low+1).keys()].map(k => k + low)
+  const len = high-low+1;
+  return len > 0 ? [...Array(high-low+1).keys()].map(k => k + low) : [];
 }
 
 export function rand(min, max, randFn) {
@@ -21,4 +22,23 @@ export function midnight_secs() {
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(),now.getDate() + 1,0, 0, 0);
   return Math.floor((midnight.getTime() - now.getTime()) / 1000);
+}
+
+export function setItem(key, val) {
+  window.localStorage.setItem(key, val);
+}
+
+export function getItem(key, fallbackValue) {
+  const item = window.localStorage.getItem(key);
+  return item ?? fallbackValue;
+}
+
+export function setBool(key, val) {
+  window.localStorage.setItem(key, val ? 'true' : 'false');
+}
+
+export function getBool(key, fallbackValue) {
+  const item = window.localStorage.getItem(key);
+  if (item === null) return fallbackValue;
+  return item === 'true';
 }

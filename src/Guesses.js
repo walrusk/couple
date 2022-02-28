@@ -26,7 +26,7 @@ function Guesses({ game, className }) {
       }
     }
     return pairs;
-  }, [])
+  }, []);
   return (
     <div className={`text-md ${className}`}>
       <div className="tracking-wider text-xl w-52 mx-auto text-left">

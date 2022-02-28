@@ -14,13 +14,16 @@ export function useGameState() {
   const hasWon = useMemo(() => check_win(board, guesses), [board,guesses]);
   const clearGame = () => { if (practice) setGuessList([]) };
   const dailyGuessesFor = window.localStorage.getItem('daily-guesses-for');
+  const practiceGuessesFor = window.localStorage.getItem('practice-guesses-for');
   const guess_count = count_guesses(board, guesses);
   const hasLost = !hasWon && guess_count >= MAX_GUESSES;
   useEffect(() => {
-    if (dailyGuessesFor !== today && !practice) {
+    const dayChanged = !practice && dailyGuessesFor !== today;
+    const seedChanged = practice && practiceGuessesFor !== practiceSeed;
+    if (dayChanged || seedChanged) {
       setGuessList([]);
     }
-  }, [dailyGuessesFor,today,practice,setGuessList]);
+  }, [dailyGuessesFor,practiceGuessesFor,today,practiceSeed,practice,setGuessList]);
   return {
     board,
     picks,
@@ -37,7 +40,10 @@ export function useGameState() {
     makeGuess: (pos) => {
       if (!hasLost) {
         setGuessList([...guesses, pos]);
-        window.localStorage.setItem('daily-guesses-for', local_today());
+        if (practice) {
+          window.localStorage.setItem('daily-guesses-for', local_today());
+          window.localStorage.setItem('practice-guesses-for', `${practiceSeed}`);
+        }
       }
     },
     clearGame,
