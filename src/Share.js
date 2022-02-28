@@ -7,7 +7,8 @@ function Share({ game }) {
   const lives = MAX_GUESSES - guess_count;
   const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
   const url = 'https://couple.magnetnet.net';
-  const text = `${title} ${picks.join(' ')}
+  const text = `${title}
+${picks.join(' ')}
 Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.
 ${url}`;
   if (!window.navigator.share) {
