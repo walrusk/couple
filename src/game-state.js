@@ -1,4 +1,4 @@
-import {useMemo,useEffect,useState} from 'react';
+import {useMemo,useEffect,useState,useCallback} from 'react';
 import {useLocalStorageToggle, useLocalStorage, useComplexLocalStorage} from './hooks';
 import seedrandom from 'seedrandom';
 import {rand, shuffle} from './util';
@@ -6,7 +6,7 @@ import { EMOJIS, W, H, MAX_GUESSES } from './game-constants';
 
 export function useGameState() {
   const [practice,togglePractice,practiceOn,practiceOff] = useLocalStorageToggle('practice');
-  const today = useToday();
+  const [today,refreshToday] = useToday();
   const [practiceSeed,setPracticeSeed] = useLocalStorage('practice-seed', 'seed');
   const rng = useMemo(() => practice ? seedrandom(practiceSeed) : seedrandom(today), [practice,practiceSeed,today]);
   const { board, picks } = useMemo(() => gen_board(W, H, EMOJIS, rng), [rng]);
@@ -37,6 +37,7 @@ export function useGameState() {
     hasWon,
     hasLost,
     today,
+    refreshToday,
     makeGuess: (pos) => {
       if (!hasLost) {
         setGuessList([...guesses, pos]);
@@ -60,7 +61,8 @@ function useToday() {
     const i = setInterval(() => setToday(local_today()), 60000);
     return () => window.clearInterval(i);
   }, []);
-  return today;
+  const refreshToday = useCallback(() => setToday(local_today()), []);
+  return [today,refreshToday];
 }
 
 function gen_board(w, h, emojis, rng) {

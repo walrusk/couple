@@ -3,17 +3,17 @@ import SlideToggle from './SlideToggle';
 import {midnight_secs} from './util';
 
 function Countdown({ game }) {
-  const { practice, hasWon, hasLost } = game;
+  const { practice, hasWon, hasLost, refreshToday } = game;
   return (
     <SlideToggle isVisible={!practice && (hasWon || hasLost)}>
       <div className="py-2">
-        <TimeRemaining />
+        <TimeRemaining onTimeout={refreshToday} />
       </div>
     </SlideToggle>
   );
 }
 
-function TimeRemaining() {
+function TimeRemaining({ onTimeout }) {
   const [t,setT] = useState(0);
   const h = Math.floor(t / 3600);
   const m = Math.floor(t / 60) % 60;
@@ -21,7 +21,12 @@ function TimeRemaining() {
   useEffect(() => {
     setT(midnight_secs());
     const i = window.setInterval(() => {
-      setT((curr_t) => curr_t-1);
+      setT((curr_t) => {
+        if (curr_t - 1 <= 0) {
+          onTimeout?.();
+        }
+        return curr_t-1;
+      });
     }, 1000);
     return () => window.clearInterval(i);
   }, []);
