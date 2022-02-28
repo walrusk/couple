@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react';
-import {useLocalStorageToggle} from './hooks';
+import {useLocalStorage} from './hooks';
 
 function GameMode({ game, showStats, setShowStats }) {
-  const { practice, practiceOn, practiceOff, clearGame, hasWon, randomPracticeSeed } = game;
-  const [wonDaily,,setHasWonDaily] = useLocalStorageToggle('won-today', !practice ? hasWon : false);
+  const { today, practice, practiceOn, practiceOff, clearGame, hasWon, randomPracticeSeed } = game;
+  const [lastDayWon,setLastDayWon] = useLocalStorage('last-day-won');
+  const wonToday = lastDayWon === today;
   useEffect(() => {
     if (!practice && hasWon) {
-      setHasWonDaily();
+      setLastDayWon(today);
     }
-  }, [practice,hasWon,setHasWonDaily]);
+  }, [practice,hasWon,setLastDayWon,today]);
   function practiceButton() {
     randomPracticeSeed();
     practiceOn();
@@ -16,7 +17,7 @@ function GameMode({ game, showStats, setShowStats }) {
   }
   return (
     <div className="btn-group relative top-0.5">
-      <button className={`btn btn-xs ${!practice && 'btn-active'}`} onClick={practiceOff}>Daily {wonDaily && '✅'}</button>
+      <button className={`btn btn-xs ${!practice && 'btn-active'}`} onClick={practiceOff}>Daily {wonToday && '✅'}</button>
       <button className={`btn btn-xs ${practice && 'btn-active'}`} onClick={practiceButton}>Practice</button>
       <button className={`btn btn-xs ${showStats && 'btn-active'}`} onClick={() => setShowStats(!showStats)}>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

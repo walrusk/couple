@@ -42,8 +42,9 @@ export function useGameState() {
       if (!hasLost) {
         setGuessList([...guesses, pos]);
         if (practice) {
-          window.localStorage.setItem('daily-guesses-for', local_today());
           window.localStorage.setItem('practice-guesses-for', `${practiceSeed}`);
+        } else {
+          window.localStorage.setItem('daily-guesses-for', local_today());
         }
       }
     },
