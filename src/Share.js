@@ -9,14 +9,13 @@ function Share({ game }) {
   const url = 'https://couple.magnetnet.net';
   const text = `${title}
 ${picks.join(' ')}
-Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.
-${url}`;
+Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   if (!window.navigator.share) {
-    return <FallbackShare text={text} title={title} />;
+    return <FallbackShare text={text} url={url} />;
   }
   const share = async () => {
     try {
-      await window.navigator.share({ title, text })
+      await window.navigator.share({ title, text: text + ' ' + url })
     } catch(_) {}
   };
   return (
@@ -29,7 +28,7 @@ ${url}`;
   );
 }
 
-function FallbackShare({ text }) {
+function FallbackShare({ text, url }) {
   const clipboard = useClipboard();
   const [copied,setCopied] = useState(false);
   function copyButton() {
@@ -39,7 +38,7 @@ function FallbackShare({ text }) {
   }
   return (
     <div>
-      <textarea className="textarea hidden" readOnly ref={clipboard.target} value={text} />
+      <textarea className="textarea hidden" readOnly ref={clipboard.target} value={text + '\n' + url} />
       <div className={`tooltip tooltip-primary ${copied ? 'tooltip-open' : 'tooltip-hidden'}`} data-tip="Copied!">
         <button className="btn btn-sm" onClick={copyButton}>
           share
