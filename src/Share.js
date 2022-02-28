@@ -3,11 +3,11 @@ import {MAX_GUESSES} from './game-constants';
 import { useClipboard } from 'use-clipboard-copy';
 
 function Share({ game }) {
-  const { picks, guess_count, gameNumber } = game;
+  const { practice, practiceSeed, picks, guess_count, gameNumber } = game;
   const lives = MAX_GUESSES - guess_count;
-  const title = `Couple #${gameNumber}`;
+  const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
   const url = 'https://couple.magnetnet.net';
-  const text = `Couple #${gameNumber} ${picks.join(' ')}
+  const text = `${title} ${picks.join(' ')}
 Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   if (!window.navigator.share) {
     return <FallbackShare text={text} url={url} title={title} />;
