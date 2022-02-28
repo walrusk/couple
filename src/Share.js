@@ -8,7 +8,7 @@ function Share({ game }) {
   const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
   const url = 'https://couple.magnetnet.net';
   const text = `${title}
-${picks.join(' ')}
+${picks.join('')}
 Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   if (!window.navigator.share) {
     return <FallbackShare text={text} url={url} />;
