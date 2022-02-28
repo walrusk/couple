@@ -9,7 +9,7 @@ function GameOver({ game, className, showStats, setShowStats }) {
   const lives = MAX_GUESSES - guess_count;
   const briefGuy = () => {
     setShowGuy(true);
-    window.setTimeout(() => setShowGuy(false), 1400);
+    window.setTimeout(() => setShowGuy(false), 50000);
   };
   useEffect(() => {
     briefGuy();
@@ -23,11 +23,11 @@ function GameOver({ game, className, showStats, setShowStats }) {
             <div className="flex justify-center">
               <SlideToggle isVisible={showGuy}>
                 <div className="whitespace-pre-wrap relative px-4 pb-2 pt-10 pb-6 -my-10">
-                  <div className="bg-primary rounded-full w-24 h-24 opacity-80 absolute left-2" />
-                  <div className="relative leading-none top-5">
-                    {`    😎
-      👈2️⃣👈
-       👟👟`}
+                  <div className="bg-primary rounded-full w-24 h-24 opacity-80 absolute left-2 shadow-xl" />
+                  <div className="relative leading-tight relative -left-3.5 top-4">
+                    {`     😎
+     👈 2️⃣ 👈
+      👟👟`}
                   </div>
                 </div>
               </SlideToggle>
