@@ -45,7 +45,7 @@ function Guesses({ game, className }) {
         <SlideToggle isVisible={showGuesses} className="py-4">
           <div className="Guesses height-40 grid grid-rows-4 grid-flow-col gap-x-4 auto-cols-min">
             {pairs}
-            {range(pairs.length + 1, 16).map((i) => (
+            {range(guess_count + 1, 16).map((i) => (
               <div
                 key={i}
                 className="flex justify-center items-center w-10"
