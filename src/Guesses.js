@@ -4,15 +4,16 @@ import SlideToggle from './SlideToggle';
 import {range} from './util';
 
 function Guesses({ game, className }) {
-  const { guesses, guess_count, board } = game;
+  const { hasWon, hasLost, guesses, guess_count, board } = game;
   const lastRow = guess_count > MAX_GUESSES - 4;
   const [showGuesses,setShowGuesses] = useState(false);
+  const gameIsDone = hasWon || hasLost;
   return (
     <div className={`text-md ${className}`}>
       <div className="tracking-wider text-xl w-52 mx-auto text-left">
         <div className="text-center my-2">
-          <button className={`btn btn-ghost btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
-            <div className={`${lastRow && 'text-red-500'}`}>
+          <button className={`btn btn-ghost shadow btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
+            <div className={`${lastRow && !gameIsDone && 'text-red-500'} relative -left-0.5`}>
               <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">lives</div>
               <span className="text-2xl ml-1 countdown">
                 <span style={{
