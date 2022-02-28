@@ -10,8 +10,12 @@ export function shuffle(arr, randFn) {
 }
 
 export function range(low, high) {
-  const len = high-low+1;
-  return len > 0 ? [...Array(high-low+1).keys()].map(k => k + low) : [];
+  try {
+    return [...Array(high-low+1).keys()].map(k => k + low);
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 }
 
 export function rand(min, max, randFn) {
