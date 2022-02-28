@@ -19,7 +19,7 @@ function GameOver({ game, className, showStats, setShowStats }) {
       <SlideToggle isVisible={hasWon}>
         <div className="text-center pb-2">
           <div className="win-message text-lg jello-horizontal">
-            <div className={`uppercase font-bold z-10 relative ${showGuy && '-mb-4'}`}>Puzzle Solved 🎉</div>
+            <div className={`uppercase font-bold z-10 relative ${showGuy && '-mb-4'}`}>Puzzle Solved <span className="relative top-px">✅</span></div>
             <div className="flex justify-center">
               <SlideToggle isVisible={showGuy}>
                 <div className="whitespace-pre-wrap relative px-4 pb-2 pt-10 pb-6 -my-10">
@@ -35,7 +35,7 @@ function GameOver({ game, className, showStats, setShowStats }) {
             <div className={`opacity-80 text-sm relative py-2 ${showGuy ? '-mt-14' : '-mt-2'} flex justify-center items-center space-x-1`}>
               <span className="text-sm">with</span>
               <strong className="text-xl font-bold">{lives}</strong>
-              <span className="text-sm">{lives === 1 ? 'life' : 'lives'} left!</span>
+              <span className="text-sm">{lives === 1 ? 'life' : 'lives'} left! 🎉</span>
             </div>
           </div>
           <div className="text-sm my-2 flex justify-center space-x-4">
