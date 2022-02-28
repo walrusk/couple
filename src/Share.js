@@ -8,13 +8,14 @@ function Share({ game }) {
   const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
   const url = 'https://couple.magnetnet.net';
   const text = `${title} ${picks.join(' ')}
-Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
+Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.
+${url}`;
   if (!window.navigator.share) {
-    return <FallbackShare text={text} url={url} title={title} />;
+    return <FallbackShare text={text} title={title} />;
   }
   const share = async () => {
     try {
-      await window.navigator.share({ title, text, url })
+      await window.navigator.share({ title, text })
     } catch(_) {}
   };
   return (
@@ -27,18 +28,16 @@ Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   );
 }
 
-function FallbackShare({ text, url, title }) {
+function FallbackShare({ text }) {
   const clipboard = useClipboard();
   const [copied,setCopied] = useState(false);
-  const shareText = `${text}
-${url}`;
   function copyButton() {
     setCopied(true);
     clipboard.copy();
   }
   return (
     <div>
-      <textarea className="textarea hidden" readOnly ref={clipboard.target} value={shareText} />
+      <textarea className="textarea hidden" readOnly ref={clipboard.target} value={text} />
       <div className={`tooltip tooltip-primary ${copied ? 'tooltip-open' : 'tooltip-hidden'}`} data-tip="Copied!">
         <button className="btn btn-sm" onClick={copyButton}>
           share
