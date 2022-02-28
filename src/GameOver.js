@@ -9,7 +9,7 @@ function GameOver({ game, className, showStats, setShowStats }) {
   const lives = MAX_GUESSES - guess_count;
   const briefGuy = () => {
     setShowGuy(true);
-    window.setTimeout(() => setShowGuy(false), 1400);
+    window.setTimeout(() => setShowGuy(false), 1600);
   };
   useEffect(() => {
     briefGuy();

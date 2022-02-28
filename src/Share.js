@@ -34,6 +34,7 @@ function FallbackShare({ text }) {
   function copyButton() {
     setCopied(true);
     clipboard.copy();
+    window.setTimeout(() => setCopied(false), 5000);
   }
   return (
     <div>
