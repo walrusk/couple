@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useLocalStorageToggle} from './hooks';
 
 function GameMode({ game, showStats, setShowStats }) {
-  const { practice, practiceOn, practiceOff, hasWon, randomPracticeSeed } = game;
+  const { practice, practiceOn, practiceOff, clearGame, hasWon, randomPracticeSeed } = game;
   const [wonDaily,,setHasWonDaily] = useLocalStorageToggle('won-today', !practice ? hasWon : false);
   useEffect(() => {
     if (!practice && hasWon) {
@@ -12,6 +12,7 @@ function GameMode({ game, showStats, setShowStats }) {
   function practiceButton() {
     randomPracticeSeed();
     practiceOn();
+    clearGame();
   }
   return (
     <div className="btn-group relative top-0.5">
