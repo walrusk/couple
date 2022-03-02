@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Tile({ pos, emoji, className, onClick, revealed, paired }) {
+function Tile({ emoji, className, onClick, revealed, paired }) {
   return (
     <div className={`swap swap-flip ${revealed && 'swap-active'}`}>
       <span className="swap-on">

@@ -15,11 +15,9 @@ function Game({ game, showStats, setShowStats }) {
   const guess = (pos) => {
     if (!hasLost) {
       guessTimeout && window.clearTimeout(guessTimeout);
-      if (guesses[guesses.length - 1] !== pos) {
-        makeGuess(pos);
-        setJustGuessed(pos);
-        guessTimeout = window.setTimeout(() => setJustGuessed(undefined), 1000);
-      }
+      makeGuess(pos);
+      setJustGuessed(pos);
+      guessTimeout = window.setTimeout(() => setJustGuessed(undefined), 1000);
     }
   };
   return (
@@ -46,7 +44,6 @@ function Game({ game, showStats, setShowStats }) {
               return (
                 <Tile
                   key={pos}
-                  pos={pos}
                   onClick={() => guess(pos)}
                   revealed={wasJustGuessed || isActiveGuess || wasJustActiveGuess || hasBeenPaired}
                   paired={hasBeenPaired}

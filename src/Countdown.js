@@ -7,14 +7,14 @@ function Countdown({ game }) {
   return (
     <SlideToggle isVisible={!practice && (hasWon || hasLost)}>
       <div className="py-2">
-        <TimeRemaining onTimeout={refreshToday} />
+        <TimeRemaining refreshToday={refreshToday} />
       </div>
     </SlideToggle>
   );
 }
 
-function TimeRemaining({ onTimeout }) {
-  const [t,setT] = useState(0);
+function TimeRemaining({ initT, onTimeout }) {
+  const [t,setT] = useState(midnight_secs());
   const h = Math.floor(t / 3600);
   const m = Math.floor(t / 60) % 60;
   const s = t % 60;
@@ -24,6 +24,7 @@ function TimeRemaining({ onTimeout }) {
       setT((curr_t) => {
         if (curr_t - 1 <= 0) {
           onTimeout?.();
+          return midnight_secs();
         }
         return curr_t-1;
       });
