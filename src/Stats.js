@@ -3,7 +3,7 @@ import {useScore} from './game-score';
 
 function Stats({ game, setShowStats }) {
   const { practice } = game;
-  const { best_score, avg_score, best_streak, curr_streak, total_games } = useScore(game);
+  const { best_score, avg_score, best_streak, curr_streak, total_games, win_percent } = useScore(game);
   return (
     <div className="py-4">
       <div className="pt-2 pb-4 text-center relative bg-base-200 rounded-xl">
@@ -15,52 +15,56 @@ function Stats({ game, setShowStats }) {
             </svg>
           </button>
         </h3>
-        <div className="text-center flex flex-col">
-          <div className="flex space-x-4 mx-auto">
-            <div className="my-2 text-center">
-              <div className="text-xs tracking-normal opacity-50 ml-0.5">best score</div>
-              <span className="text-2xl ml-1 countdown">
+        <div className="grid grid-cols-2 gap-2 p-4">
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">best<br />guesses</div>
+            <span className="text-2xl ml-1 countdown">
                 <span style={{
                   '--value': best_score
                 }} />
               </span>
-            </div>
-            <div className="my-2 text-center">
-              <div className="text-xs tracking-normal opacity-50 ml-0.5">average score</div>
-              <span className="text-2xl ml-1 countdown">
+          </div>
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">average<br />guesses</div>
+            <span className="text-2xl ml-1 countdown">
                 <span style={{
                   '--value': avg_score
                 }} />
               </span>
-            </div>
           </div>
-          <div className="flex space-x-4 mx-auto">
-            <div className="my-2 text-center">
-              <div className="text-xs tracking-normal opacity-50 ml-0.5">best streak</div>
-              <span className="text-2xl ml-1 countdown">
-                <span style={{
-                  '--value': best_streak
-                }} />
-              </span>
-            </div>
-            <div className="my-2 text-center">
-              <div className="text-xs tracking-normal opacity-50 ml-0.5">current streak</div>
-              <span className="text-2xl ml-1 countdown">
-                <span style={{
-                  '--value': curr_streak
-                }} />
-              </span>
-            </div>
-          </div>
-          <div className="flex space-x-4 mx-auto">
-            <div className="my-2 text-center">
-              <div className="text-xs tracking-normal opacity-50 ml-0.5">total played</div>
-              <span className="text-2xl ml-1 countdown">
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">played</div>
+            <span className="text-2xl ml-1 countdown">
                 <span style={{
                   '--value': total_games
                 }} />
               </span>
-            </div>
+          </div>
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">won</div>
+            <span className="text-2xl ml-1 countdown">
+                {win_percent === 100 ? '1' : ''}
+              <span style={{
+                '--value': win_percent === 100 ? '00' : win_percent,
+              }} />
+              </span>
+            <span className="text-xs">%</span>
+          </div>
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">best<br />streak</div>
+            <span className="text-2xl ml-1 countdown">
+                <span style={{
+                  '--value': best_streak
+                }} />
+              </span>
+          </div>
+          <div className="Score my-2 text-center">
+            <div className="text-xs tracking-normal opacity-50 ml-0.5">current<br />streak</div>
+            <span className="text-2xl ml-1 countdown">
+                <span style={{
+                  '--value': curr_streak
+                }} />
+              </span>
           </div>
         </div>
         <div className="pt-6 text-xs flex justify-center items-center flex-nowrap space-x-0.5">

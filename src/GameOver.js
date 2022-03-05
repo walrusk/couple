@@ -1,15 +1,14 @@
 import React, {useState,useEffect} from 'react';
 import Share from './Share';
 import SlideToggle from './SlideToggle';
-import {MAX_GUESSES} from './game-constants';
 
 function GameOver({ game, className, showStats, setShowStats }) {
-  const { practice, hasWon, hasLost, clearGame, guess_count } = game;
+  const { practice, hasWon, guesses, hasLost, clearGame } = game;
+  const numGuesses = Math.floor(guesses.length / 2);
   const [showGuy,setShowGuy] = useState(false);
-  const lives = MAX_GUESSES - guess_count;
   const briefGuy = () => {
     setShowGuy(true);
-    window.setTimeout(() => setShowGuy(false), 1600);
+    window.setTimeout(() => setShowGuy(false), 0);
   };
   useEffect(() => {
     briefGuy();
@@ -33,10 +32,15 @@ function GameOver({ game, className, showStats, setShowStats }) {
               </SlideToggle>
             </div>
             <SlideToggle isVisible={!showGuy}>
-              <div className="opacity-80 text-sm relative -mt-3 py-2 flex justify-center items-center space-x-1">
-                <span className="text-sm">with</span>
-                <strong className="text-xl font-bold">{lives}</strong>
-                <span className="text-sm">{lives === 1 ? 'life' : 'lives'} left! 🎉</span>
+              <div>
+                <div className="opacity-80 text-sm relative -mt-3 py-2 flex justify-center items-center space-x-1">
+                  <span className="text-sm">in</span>
+                  <strong className="text-xl font-bold">{numGuesses}</strong>
+                  <span className="text-sm">guesses! 🎉</span>
+                </div>
+                {/*<div className="opacity-80 text-sm relative -mt-3 py-2 flex justify-center items-center space-x-1">*/}
+                {/*  <span className="text-sm">({lives} {lives === 1 ? 'life' : 'lives'} left)</span>*/}
+                {/*</div>*/}
               </div>
             </SlideToggle>
           </div>

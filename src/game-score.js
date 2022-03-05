@@ -1,6 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
 import {useComplexLocalStorage} from './hooks';
-import {MAX_GUESSES} from './game-constants';
 
 export function useScore(game) {
   const { board, practice, practiceSeed, guesses, guess_count, hasWon, hasLost, gameNumber } = game;
@@ -29,15 +28,18 @@ function calc_score(stats) {
   let sum = 0;
   let best_streak = 0;
   let curr_streak = 0;
+  let total_wins = 0;
+  const total_games = stats.length;
   stats.forEach(game => {
-    const gcLives = MAX_GUESSES - game.gc;
+    const guessCount = game.gc + 8;
     // best score
-    if (gcLives > best_score) {
-      best_score = gcLives;
+    if (best_score === 0 || guessCount < best_score) {
+      best_score = guessCount;
     }
     // current streak
     if (game.w) {
       curr_streak++;
+      total_wins++;
     } else { // L
       if (curr_streak > best_streak) {
         best_streak = curr_streak;
@@ -45,13 +47,15 @@ function calc_score(stats) {
       curr_streak = 0;
     }
     // average score
-    sum += gcLives;
+    sum += guessCount;
   });
   return {
     best_score,
+    total_wins,
     avg_score: Math.round(sum / stats.length),
     best_streak: curr_streak > best_streak ? curr_streak : best_streak,
     curr_streak,
-    total_games: stats.length,
+    total_games,
+    win_percent: Math.round(total_wins/total_games * 100),
   };
 }
