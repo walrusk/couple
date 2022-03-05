@@ -3,7 +3,7 @@ import React from 'react';
 import ShareFallback from './ShareFallback'
 
 function Share({ game, statsButton, className }) {
-  const { guesses, board, practice, practiceSeed, picks, guess_count, gameNumber } = game;
+  const { guesses, board, practice, practiceSeed, gameNumber } = game;
   // const lives = MAX_GUESSES - guess_count;
   const numGuesses = Math.floor(guesses.length / 2);
   const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
