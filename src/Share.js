@@ -1,20 +1,21 @@
 import React from 'react';
-import {MAX_GUESSES} from './game-constants';
+// import {MAX_GUESSES} from './game-constants';
 import ShareFallback from './ShareFallback'
 
 function Share({ game, statsButton, className }) {
-  const { practice, practiceSeed, picks, guess_count, gameNumber } = game;
-  const lives = MAX_GUESSES - guess_count;
+  const { guesses, board, practice, practiceSeed, picks, guess_count, gameNumber } = game;
+  // const lives = MAX_GUESSES - guess_count;
+  const numGuesses = Math.floor(guesses.length / 2);
   const title = practice ? `Practice Couple "${practiceSeed}"` : `Couple #${gameNumber}`;
-  const url = 'https://couple.magnetnet.net';
+  // const url = 'https://couple.magnetnet.net';
   const text = `${title}
-${picks.join('')}
-Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
+${columns(pairedEmojis(guesses, board))}
+Solved in ${numGuesses} guesses.`;
+//Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   if (!window.navigator.share) {
     return (
       <ShareFallback
         text={text}
-        url={url}
         statsButton={statsButton}
         className={className}
       />
@@ -22,7 +23,7 @@ Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   }
   const share = async () => {
     try {
-      await window.navigator.share({ title, text: text + ' ' + url })
+      await window.navigator.share({ title, text })
     } catch(_) {}
   };
   return (
@@ -36,6 +37,30 @@ Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
       {statsButton}
     </div>
   );
+}
+
+function pairedEmojis(guesses, board) {
+  const pairs = [];
+  for (let i=0; i<guesses.length; i+=2) {
+    const g1 = board[guesses[i]];
+    const g2 = board[guesses[i+1]];
+    pairs.push(`${g1}${g2}`);
+  }
+  return pairs;
+}
+
+function columns(emojis, numCols = 3) {
+  const rows = [];
+  let rowI = 0;
+  emojis.forEach((e) => {
+    if (!rows[rowI]) rows[rowI] = '';
+    rows[rowI] += `${e}        `;
+    rowI++;
+    if (rowI > emojis.length / numCols) {
+      rowI = 0;
+    }
+  });
+  return rows.map((r) => r.trim()).join('\n');
 }
 
 export default Share;

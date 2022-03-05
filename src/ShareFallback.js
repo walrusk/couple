@@ -2,7 +2,7 @@ import {useClipboard} from 'use-clipboard-copy';
 import React, {useState} from 'react';
 import SlideToggle from './SlideToggle';
 
-function ShareFallback({ text, url, statsButton, className }) {
+function ShareFallback({ text, statsButton, className }) {
   const [copied,setCopied] = useState(false);
   const [copyErr,setCopyErr] = useState('');
   const [showCopyText,setShowCopyText] = useState(false);
@@ -34,7 +34,7 @@ function ShareFallback({ text, url, statsButton, className }) {
         {statsButton}
       </div>
       <SlideToggle isVisible={!!copyErr || showCopyText}>
-        <textarea className="textarea textarea-bordered bg-base-200 w-56 h-24 leading-tight" readOnly ref={clipboard.target} value={text + '\n' + url} />
+        <textarea className="textarea textarea-bordered bg-base-200 w-56 h-40 leading-tight" readOnly ref={clipboard.target} value={text} />
       </SlideToggle>
     </>
   );

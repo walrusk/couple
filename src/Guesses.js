@@ -30,22 +30,24 @@ function Guesses({ game, className }) {
   return (
     <div className={`text-md ${className}`}>
       <div className="tracking-wider text-xl w-52 mx-auto text-left">
-        <div className="text-center my-2">
-          <button className={`btn btn-ghost shadow btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
-            <div className={`${lastRow && !gameIsDone && 'text-red-500'} relative -left-0.5`}>
-              <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">lives</div>
-              <span className="text-2xl ml-1 countdown">
-                <span style={{
-                  '--value': MAX_GUESSES - guess_count
-                }} />
-              </span>
-            </div>
-          </button>
-        </div>
-        <SlideToggle isVisible={showGuesses} className="py-4">
+        <SlideToggle isVisible={!gameIsDone}>
+          <div className="text-center py-2">
+            <button className={`btn btn-ghost shadow btn-circle btn-lg ${showGuesses && 'btn-active'}`} onClick={() => setShowGuesses(!showGuesses)}>
+              <div className={`${lastRow && !gameIsDone && 'text-red-500'} relative -left-0.5`}>
+                <div className="text-xs tracking-normal opacity-50 ml-0.5 normal-case">lives</div>
+                <span className="text-2xl ml-1 countdown">
+                  <span style={{
+                    '--value': MAX_GUESSES - guess_count
+                  }} />
+                </span>
+              </div>
+            </button>
+          </div>
+        </SlideToggle>
+        <SlideToggle isVisible={showGuesses || gameIsDone} className="py-4">
           <div className="Guesses height-40 grid grid-rows-4 grid-flow-col gap-x-4 auto-cols-min">
             {pairs}
-            {range(guess_count + 1, 16).map((i) => (
+            {range(guess_count + 1, MAX_GUESSES).map((i) => (
               <div
                 key={i}
                 className="flex justify-center items-center w-10"
