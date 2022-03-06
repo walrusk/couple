@@ -10,7 +10,7 @@ function Share({ game, statsButton, className }) {
   // const url = 'https://couple.magnetnet.net';
   const text = `${title}
 ${columns(pairedEmojis(guesses, board))}
-Solved in ${numGuesses} guesses.`;
+Solved in ${numGuesses} guesses!`;
 //Solved with ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
   if (!window.navigator.share) {
     return (
@@ -49,12 +49,12 @@ function pairedEmojis(guesses, board) {
   return pairs;
 }
 
-function columns(emojis, numCols = 3) {
+function columns(emojis, numCols = 4) {
   const rows = [];
   let rowI = 0;
   emojis.forEach((e) => {
     if (!rows[rowI]) rows[rowI] = '';
-    rows[rowI] += `${e}        `;
+    rows[rowI] += `${e}   `;
     rowI++;
     if (rowI > emojis.length / numCols) {
       rowI = 0;
