@@ -40,7 +40,7 @@ function Guesses({ game, className }) {
             </div>
           </button>
         </div>
-        <SlideToggle isVisible={showGuesses || gameIsDone} className="px-2 py-4 flex justify-center">
+        <SlideToggle isVisible={showGuesses || gameIsDone} className="py-4 flex justify-center">
           <div className="Guesses height-40 grid grid-rows-4 grid-flow-col gap-x-4 gap-y-1 auto-cols-min">
             {pairs}
           </div>
