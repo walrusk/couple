@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+.DS_Store
+.vscode
+
 # testing
 /coverage
 
