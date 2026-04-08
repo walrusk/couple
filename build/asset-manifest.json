@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.515c3f6b.css",
-    "main.js": "/static/js/main.bd340534.js",
+    "main.css": "static/css/main.515c3f6b.css",
+    "main.js": "static/js/main.bd340534.js",
     "index.html": "/index.html"
   },
   "entrypoints": [
